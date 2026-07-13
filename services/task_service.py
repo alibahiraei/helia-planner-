@@ -2,6 +2,7 @@ from database.database import engine,Base,SessionLocal
 from database.models import Task
 from sqlalchemy import select
 from sqlalchemy import select, func
+from datetime import date
 
 
 
@@ -9,29 +10,62 @@ class TaskService:
 
 
     @staticmethod
-    def get_total_score() -> int:
+    def get_total_score(
+        selected_date: date
+    ) -> int:
 
         with SessionLocal() as session:
 
             total = session.scalar(
-                select(func.sum(Task.score))
-                .where(Task.is_completed == True)
+
+                select(func.sum(Task.score)).where(
+                    Task.task_date == selected_date,
+                    Task.is_completed == True
+                )
+
             )
 
             return total or 0
+    
 
     @staticmethod
-    def create_task(title:str, score:int)->Task:
-        with SessionLocal() as se:
-            task=Task(title=title,score=score)
+    def create_task(
+        title: str,
+        score: int,
+        task_date: date
+    ) -> Task | None:
+
+        with SessionLocal() as session:
+
             if not title.strip():
-                return
-            se.add(task)
-            se.commit()
+                return None
+
+            task = Task(
+                title=title,
+                score=score,
+                task_date=task_date
+            )
+
+            session.add(task)
+            session.commit()
+            session.refresh(task)
+
+            return task
     @staticmethod
-    def get_all_task()->list[Task]:
-        with SessionLocal() as se:
-            result=se.scalars(select(Task))
+    def get_tasks_by_date(
+        selected_date: date
+    ) -> list[Task]:
+
+        with SessionLocal() as session:
+
+            result = session.scalars(
+
+                select(Task).where(
+                    Task.task_date == selected_date
+                )
+
+            )
+
             return result.all()
     @staticmethod
     def update_task_status(task_id: int, completed: bool) -> None:

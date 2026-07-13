@@ -1,11 +1,26 @@
-from database.database import Base,engine
+import streamlit as st
+
+from database.database import Base, engine
 from database.models import Task
-from services.task_service import TaskService
-from ui.hom import show_home
 
-Base.metadata.create_all(bind=engine)
+from ui.home import show_home
+from ui.parent import show_parent_panel
+
+from database.init_db import init_database
+
+init_database()
 
 
-tasks=TaskService.get_all_task()
-show_home(tasks)
 
+page = st.sidebar.selectbox(
+    "انتخاب صفحه",
+    [
+        "👧 هلیا",
+        "👨 والدین"
+    ]
+)
+
+if page == "👧 هلیا":
+    show_home()
+else:
+    show_parent_panel()

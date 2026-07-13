@@ -7,8 +7,12 @@ from datetime import datetime
 class Task (Base):
     __tablename__="tasks"
     id:Mapped[int] = mapped_column(Integer,primary_key=True)
-    title:Mapped[str] = mapped_column(String)
+    title:Mapped[str] = mapped_column(String(100),nullable=False)
     score:Mapped[int] = mapped_column(Integer)
     is_active:Mapped[bool]= mapped_column(Boolean,default=True)
     created_at:Mapped[datetime] = mapped_column(DateTime,default= datetime.now)
+    is_completed: Mapped[bool] = mapped_column(
+    Boolean,
+    default=False
+)
 

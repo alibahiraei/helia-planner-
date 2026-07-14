@@ -5,7 +5,7 @@ from database.models import Task
 
 from ui.home import show_home
 from ui.parent import show_parent_panel
-
+from ui.reports import show_reports
 from database.init_db import init_database
 
 def load_css():
@@ -37,14 +37,29 @@ st.set_page_config(
 )
 
 page = st.sidebar.selectbox(
+
     "انتخاب صفحه",
+
     [
+
         "👧 هلیا",
-        "👨 والدین"
+
+        "👨 والدین",
+
+        "📊 گزارش"
+
     ]
+
 )
 
 if page == "👧 هلیا":
+
     show_home()
-else:
+
+elif page == "👨 والدین":
+
     show_parent_panel()
+
+else:
+
+    show_reports()

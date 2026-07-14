@@ -1,0 +1,67 @@
+/* ---------- Background ---------- */
+
+.stApp{
+    background:#FFF8FC;
+}
+
+/* ---------- Title ---------- */
+
+h1{
+    text-align:center;
+    color:#E91E63;
+}
+
+h2,h3{
+    color:#444;
+}
+
+/* ---------- Metric ---------- */
+
+div[data-testid="stMetric"]{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    border:1px solid #F4D7E3;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+/* ---------- Buttons ---------- */
+
+.stButton>button{
+
+    width:100%;
+
+    border-radius:12px;
+
+    border:none;
+
+    background:#E91E63;
+
+    color:white;
+
+    font-weight:bold;
+}
+
+.stButton>button:hover{
+
+    background:#D81B60;
+}
+
+/* ---------- Checkbox ---------- */
+
+.stCheckbox{
+
+    font-size:18px;
+}
+
+/* ---------- Progress ---------- */
+
+.stProgress{
+
+    height:18px;
+}

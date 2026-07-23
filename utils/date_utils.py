@@ -1,10 +1,36 @@
 import jdatetime
+from datetime import date
 
+def to_jalali(g_date:date)->str :
+    '''
+    تبدیل تاریخ میلادی به شمسی
+    '''
 
-def to_jalali(gregorian_date):
+    j_date = jdatetime.date.fromgregorian(date=g_date)
 
-    jalali = jdatetime.date.fromgregorian(
-        date=gregorian_date
-    )
+    return j_date.strftime("%Y/%m/%d")
 
-    return jalali.strftime("%Y/%m/%d")
+def get_weekday_name(g_date: date) -> str:
+    """
+    نام روز هفته به فارسی
+    """
+
+    weekdays = [
+
+        "دوشنبه",
+
+        "سه‌شنبه",
+
+        "چهارشنبه",
+
+        "پنجشنبه",
+
+        "جمعه",
+
+        "شنبه",
+
+        "یکشنبه"
+
+    ]
+
+    return weekdays[g_date.weekday()]

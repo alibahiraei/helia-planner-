@@ -3,6 +3,7 @@ from database.models import Task
 from sqlalchemy import select
 from sqlalchemy import select, func
 from datetime import date
+from datetime import timedelta
 
 
 
@@ -89,6 +90,43 @@ class TaskService:
                 return
 
             session.delete(task)
+
+            session.commit()
+    @staticmethod
+    def create_tasks_between(
+        title: str,
+        score: int,
+        start_date:date,
+        end_date:date
+    ):
+        if start_date > end_date:
+
+            raise ValueError(
+                "تاریخ شروع نمی‌تواند بعد از تاریخ پایان باشد."
+    )
+        if not title.strip():
+
+            return
+
+        with SessionLocal() as session:
+
+            current_date = start_date
+
+            while current_date <= end_date:
+
+                task = Task(
+
+                    title=title,
+
+                    score=score,
+
+                    task_date=current_date
+
+                )
+
+                session.add(task)
+
+                current_date += timedelta(days=1)
 
             session.commit()
 

@@ -3,6 +3,11 @@ from datetime import date
 
 from services.task_service import TaskService
 from utils.date_utils import to_jalali
+from datetime import date, timedelta
+from utils.date_utils import (
+    to_jalali,
+    get_weekday_name
+)
 
 
 
@@ -24,6 +29,10 @@ def motivational_message(progress):
 
 
 def show_home():
+    
+
+    if "selected_date" not in st.session_state:
+        st.session_state.selected_date = date.today()
 
     st.markdown(
         """
@@ -34,17 +43,38 @@ def show_home():
     
     today = date.today()
 
-    st.caption(
-        f"📅 {to_jalali(today)}"
-    )
+    
 
     st.info(
-    "🎯 امروز هم با انرژی شروع کنیم."
+    "🎯 تنها راه موفقیت تعین هدف است"
     )
+    col1, col2, col3 = st.columns([1, 4, 1])
 
-    tasks = TaskService.get_tasks_by_date(today)
+    with col1:
+        if st.button("⬅️"):
+            st.session_state.selected_date -= timedelta(days=1)
+            st.rerun()
 
-    score = TaskService.get_total_score(today)
+    with col2:
+        st.markdown(
+            f"### 📅 {to_jalali(st.session_state.selected_date)}"
+        )
+        st.caption(
+            get_weekday_name(st.session_state.selected_date)
+        )
+
+    with col3:
+        if st.button("➡️"):
+            st.session_state.selected_date += timedelta(days=1)
+            st.rerun()
+    selected_date = st.session_state.selected_date
+
+
+    tasks = TaskService.get_tasks_by_date(selected_date)
+
+    score = TaskService.get_total_score(selected_date)
+
+    
 
     col1, col2 = st.columns(2)
 

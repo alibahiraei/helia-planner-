@@ -31,8 +31,27 @@ def show_parent_panel():
             max_value=100,
             value=10
         )
+        start_date = st.date_input("از تاریخ")
 
-        submitted = st.form_submit_button("➕ افزودن")
+        end_date = st.date_input("تا تاریخ")
+
+        submitted = st.form_submit_button("ثبت ")
+        
+    if submitted:
+
+        try:
+            TaskService.create_tasks_between(
+                title,
+                score,
+                start_date,
+                end_date
+            )
+
+            st.success("برنامه ثبت شد.")
+            st.rerun()
+
+        except ValueError as e:
+            st.error(str(e))
 
     if submitted:
 
@@ -40,6 +59,7 @@ def show_parent_panel():
             title,
             score,
             task_date
+
         )
 
         st.success("کار جدید ثبت شد.")
@@ -78,3 +98,4 @@ def show_parent_panel():
                 TaskService.delete_task(task.id)
 
                 st.rerun()
+    
